@@ -11,7 +11,7 @@ dmm_suite
 		var dmmText = file2text(dmm_file)
 		return read_map(dmmText, 1, 1, z_offset)
 
-	read_map(dmm_text as file, coordX as num, coordY as num, coordZ as num)
+	read_map(dmm_text as text, coordX as num, coordY as num, coordZ as num)
 		// Split Key/Model list into lines
 		var key_len = length(
 			copytext(
@@ -138,9 +138,12 @@ dmm_suite
 				return
 			// Parse all attributes and create preloader
 			var /turf/location = locate(xcrd, ycrd, zcrd)
+			var /list/attributeKeys = new()
+			var /list/attributeValues = new()
 			for(var/attributeName in attributes)
-				attributes[attributeName] = loadAttribute(attributes[attributeName], strings)
-			var /dmm_suite/preloader/preloader = new(location, attributes)
+				attributeKeys.Add(attributeName)
+				attributeValues.Add(loadAttribute(attributes[attributeName], strings))
+			var /dmm_suite/preloader/preloader = new(location, attributeKeys, attributeValues)
 			// Begin Instanciation
 			// Handle Areas (not created every time)
 			var /atom/instance
@@ -190,21 +193,22 @@ atom/New(newLoc)
 	. = ..()
 
 dmm_suite
-	var
-		list/preloaders = new()
 	preloader
 		parent_type = /datum
 		var
-			name
-			list/attributes
+			//name
+			list/attributeKeys
+			list/attributeValues
 			turf/location
-		New(turf/loadLocation, list/loadAttributes)
-			name = "[loadLocation.x],[loadLocation.y],[loadLocation.z]"
+		New(turf/loadLocation, list/_attributeKeys, list/_attributeValues)
+			//name = "[loadLocation.x],[loadLocation.y],[loadLocation.z]"
 			loadLocation.dmm_preloader = src
-			attributes = loadAttributes
+			attributeKeys = _attributeKeys
+			attributeValues = _attributeValues
 		proc
 			load(atom/what)
 				if(!what) del src
-				for(var/attribute in attributes)
-					what.vars[attribute] = attributes[attribute]
+				var keyLen = attributeKeys.len
+				for(var/I = 1 to keyLen)
+					what.vars[attributeKeys[I]] = attributeValues[I]
 				del src

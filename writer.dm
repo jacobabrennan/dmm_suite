@@ -65,6 +65,9 @@ dmm_suite
 		for(var/posZ = 0 to depth-1)
 			for(var/posY = 0 to height-1)
 				for(var/posX = 0 to width-1)
+					if(rand() < 1/1000)
+						world << "([posX],[posY],[posZ])"
+						sleep(1)
 					var /turf/saveTurf = locate(startX+posX, startY+posY, startZ+posZ)
 					var testTemplate = makeTemplate(saveTurf, flags)
 					var templateNumber = templates.Find(testTemplate)
@@ -100,17 +103,20 @@ dmm_suite/proc
 		for(var/posZ = 0 to depth-1)
 			if(posZ)
 				dmmText += "\n"
-			dmmText += "\n(1,1,[posZ+1]) = {\""
+			dmmText += "\n(1,1,[posZ+1]) = {\"\n"
+			var /list/joinGrid = list() // Joining a list is faster than generating strings
 			for(var/posY = height-1 to 0 step -1)
-				dmmText += "\n"
+				var /list/joinLine = list()
 				for(var/posX = 0 to width-1)
 					var compoundIndex = 1 + (posX) + (posY*width) + (posZ*width*height)
 					var keyNumber = templateBuffer[compoundIndex]
 					var tempKey = keys[keyNumber]
-					dmmText += "[tempKey]"
+					joinLine.Add(tempKey)
+					//dmmText += "[tempKey]"
 					sleep(-1)
+				joinGrid.Add(list2text(joinLine))
 				sleep(-1)
-			dmmText += "\n\"}"
+			dmmText += {"[list2text(joinGrid, "\n")]\n\"}"}
 			sleep(-1)
 		//
 		return dmmText
