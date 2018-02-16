@@ -29,7 +29,8 @@ dmm_suite
 			grid_models[modelKey] = modelContents
 			sleep(-1)
 		// Retrieve Comments, Determine map position (if not specified)
-		var commentModel = modelLines[1]
+		var commentModel = modelLines[2] // The "empty cell" key will always be first, then the comment key.
+		DIAG(commentModel)
 		var bracketPos = findtextEx(commentModel, "}")
 		commentModel = copytext(commentModel, findtextEx(commentModel, "=")+3, bracketPos) // Skip opening bracket
 		var commentPathText = "[/dmm_suite/comment]"
@@ -137,29 +138,27 @@ dmm_suite
 			if(ispath(atomPath, /dmm_suite/clear_turf) || ispath(atomPath, /dmm_suite/clear_area))
 				return
 			// Parse all attributes and create preloader
+			var /list/attributesMirror = list()
 			var /turf/location = locate(xcrd, ycrd, zcrd)
-			var /list/attributeKeys = new()
-			var /list/attributeValues = new()
 			for(var/attributeName in attributes)
-				attributeKeys.Add(attributeName)
-				attributeValues.Add(loadAttribute(attributes[attributeName], strings))
-			var /dmm_suite/preloader/preloader = new(location, attributeKeys, attributeValues)
+				attributesMirror[attributeName] = loadAttribute(attributes[attributeName], strings)
+			var /dmm_suite/preloader/preloader = new(location, attributesMirror)
 			// Begin Instanciation
 			// Handle Areas (not created every time)
 			var /atom/instance
 			if(ispath(atomPath, /area))
 				instance = locate(atomPath)
 				instance.contents.Add(locate(xcrd, ycrd, zcrd))
+				location.dmm_preloader = null
 			// Handle Underlay Turfs
 			else if(istype(atomPath, /mutable_appearance))
 				instance = atomPath // Skip to preloader manual loading.
-				//DIAG(" -- -- instancing: [attributes.len]")
 				preloader.load(instance)
 			// Handle Turfs & Movable Atoms
 			else// if(ispath(atomPath, /turf))
 				instance = new atomPath(location)
 			// Handle cases where Atom/New was redifined without calling Super()
-			if(preloader)
+			if(preloader && instance) // Atom could delete itself in New()
 				preloader.load(instance)
 			//
 			return instance
@@ -185,30 +184,25 @@ turf
 	var
 		dmm_suite/preloader/dmm_preloader
 
-atom/New(newLoc)
-	if(istype(newLoc, /turf))
-		var /turf/turfLoc = newLoc
-		if(turfLoc.dmm_preloader)
-			turfLoc.dmm_preloader.load(src)
-	. = ..()
+atom/New(turf/newLoc)
+    if(isturf(newLoc))
+        var /dmm_suite/preloader/preloader = newLoc.dmm_preloader
+        if(preloader)
+            newLoc.dmm_preloader = null
+            preloader.load(src)
+    . = ..()
 
 dmm_suite
 	preloader
 		parent_type = /datum
 		var
-			//name
-			list/attributeKeys
-			list/attributeValues
-			turf/location
-		New(turf/loadLocation, list/_attributeKeys, list/_attributeValues)
-			//name = "[loadLocation.x],[loadLocation.y],[loadLocation.z]"
+			list/attributes
+		New(turf/loadLocation, list/_attributes)
 			loadLocation.dmm_preloader = src
-			attributeKeys = _attributeKeys
-			attributeValues = _attributeValues
+			attributes = _attributes
+			. = ..()
 		proc
-			load(atom/what)
-				if(!what) del src
-				var keyLen = attributeKeys.len
-				for(var/I = 1 to keyLen)
-					what.vars[attributeKeys[I]] = attributeValues[I]
-				del src
+			load(atom/newAtom)
+				var /list/attributesMirror = attributes // apparently this is faster
+				for(var/attributeName in attributesMirror)
+					newAtom.vars[attributeName] = attributesMirror[attributeName]

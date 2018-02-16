@@ -9,6 +9,9 @@ dmm_suite
 	//-- Used to store meta data in dmm files --------
 	comment
 		parent_type = /obj
+		icon = 'dmm_suite.dmi'
+		icon_state = "comment"
+		layer = FLY_LAYER+1
 		var
 			version
 			coordinates
@@ -17,6 +20,8 @@ dmm_suite
 			. = ..()
 			// Must assign at runtime so innitial() != runtime when saving
 			version = DMM_SUITE_VERSION
+			spawn(1)
+				del src
 
 	//-- Used in generating turf underlay stacks -----
 	underlay
