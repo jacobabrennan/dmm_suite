@@ -1,0 +1,37 @@
+"a" = (/demo/obj,/demo/turf,/area)
+"b" = (/demo/turf,/demo/area)
+"c" = (/demo/obj/red_flowers,/demo/turf,/demo/area)
+"d" = (/dmm_suite/clear_turf,/dmm_suite/clear_area)
+"e" = (/demo/obj,/demo/turf,/demo/area)
+"f" = (/demo/obj/red_flowers{test_num = 207; test_txt = "iUasdf"},/demo/turf,/demo/area)
+"g" = (/demo/obj/red_flowers{contents = newlist(); test_num = 207; test_txt = "iUasdf"},/demo/turf,/demo/area)
+"h" = (/demo/turf,/demo/obj,/demo/turf/ledge,/demo/area)
+"i" = (/demo/turf,/demo/obj/red_flowers{test_num = 207; test_txt = "iU"},/demo/turf/ledge,/demo/area)
+"j" = (/demo/turf,/demo/obj/red_flowers{test_num = 207; test_txt = "iUasdf"},/demo/turf/ledge,/demo/area)
+"k" = (/demo/mob,/demo/turf,/demo/area)
+"l" = (/demo/turf,/demo/turf/ledge,/demo/turf/circle,/demo/area)
+"m" = (/demo/turf,/demo/turf/circle,/demo/turf/ledge,/demo/area)
+
+(1,1,1) = {"
+ddddddddddddddddddddd
+dddddbbbbdddddddddddd
+ddbbbbbbbbbbddddddddd
+ddbbbbbbbbbbddddddddd
+dbbbbbdddcbbbbbbbdddd
+dbbbdddddeebbbbbbdddd
+dbbbdbdddeeecbbbbdddd
+dbbbbbdeeefefebbbdddd
+ddbbbbdfghhiiibbddddd
+ddbbbbbhjbbkbbbbddddd
+ddbbbbbbbbbbkbbbddddd
+ddddbbbbbbbbbbbdddddd
+dddddbbbbblbmbddddddd
+ddddddbbbbbbbbddddddd
+ddddddbbddddddddddddd
+dddddbbbdddddddddaadd
+ddddbbbdddddddddaaadd
+bbbbbbbdddddddddaaadd
+bbbbbbbdddddddddaaddd
+bbbbbbddddddddddddddd
+bbbbbdddddddddddddddd
+"}

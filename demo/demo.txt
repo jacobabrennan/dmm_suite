@@ -1,0 +1,1 @@
+This is a text file used by the demo to demonstrait how the /dmp_writer can not only save numbers and text, but also files.

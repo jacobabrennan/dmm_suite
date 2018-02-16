@@ -1,0 +1,19 @@
+// BEGIN_INTERNALS
+// END_INTERNALS
+// BEGIN_FILE_DIR
+#define FILE_DIR .
+// END_FILE_DIR
+// BEGIN_PREFERENCES
+#define DEBUG
+// END_PREFERENCES
+// BEGIN_INCLUDE
+#include "_preprocessor_and_utilities.dm"
+#include "api.dm"
+#include "map_placeholders.dm"
+#include "reader.dm"
+#include "write_area.dm"
+#include "writer.dm"
+#ifdef __MAIN__ // BEGIN_DEMO
+#include "demo\demo.dm"
+#endif          // END_DEMO
+// END_INCLUDE

@@ -1,0 +1,41 @@
+
+
+//-- Map Placeholders ----------------------------------------------------------
+
+dmm_suite
+	var
+		version = DMM_SUITE_VERSION
+
+	//-- Used to store meta data in dmm files --------
+	comment
+		parent_type = /obj
+		var
+			version
+			coordinates
+			dimensions
+		New()
+			. = ..()
+			// Must assign at runtime so innitial() != runtime when saving
+			version = DMM_SUITE_VERSION
+
+	//-- Used in generating turf underlay stacks -----
+	underlay
+		parent_type = /turf
+		New()
+			del src
+	//-- Fills maps when writing with IGNORE_TURFS ---
+	clear_turf
+		parent_type = /turf
+		icon = 'dmm_suite.dmi'
+		icon_state = "clear_turf"
+		layer = FLY_LAYER
+		//New()
+			//del src
+	//-- Fills maps when writing with IGNORE_AREAS ---
+	clear_area
+		parent_type = /area
+		icon = 'dmm_suite.dmi'
+		icon_state = "clear_area"
+		layer = FLY_LAYER
+		//New()
+			//del src
