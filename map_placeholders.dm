@@ -20,6 +20,7 @@ dmm_suite
 			. = ..()
 			// Must assign at runtime so innitial() != runtime when saving
 			version = DMM_SUITE_VERSION
+			icon = null
 			spawn(1)
 				del src
 

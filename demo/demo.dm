@@ -1,28 +1,6 @@
 
 
-//------------------------------------------------------------------------------
-
-/*
-	/dmm_suite demo, version 1.0
-		Released January 30th, 2011.
-
-	Provides the verb read()
-	Provides the verb write()
-
-	This demo randomly generates an in-game map of size 7x7x7, and provides the
-	user with a verb to save that map as a .dmm file. To use the demo, simply call
-	'save_map' with a valid file name ("Test_File" is a valid name, "Test/File.dmm"
-	is not valid). The .dmm file can now be found in the /demo directory. The user
-	may also use the write() verb to see exactly what the library is writing
-	without saving a file on their system. The user can also use the load() verb
-	to load a previously saved dmm file.
-	*/
-/*
-	Version History
-		1.0
-			- Released January 30th, 2011.
-			- Rebranded as "dmm_suite" from old dmp_reader/writer demos.
-	*/
+//-- Demo ----------------------------------------------------------------------
 
 mob
 
@@ -32,7 +10,23 @@ mob
 		and displays it in the client's browser.
 		*/
 		var /dmm_suite/suite = new()
-		var mapText = suite.write_area(locate("demo_area"))
+		// Write map text from two corners:
+		var mapText = suite.write_map(
+			locate(1, 1, 1),
+			locate(world.maxx, world.maxy, world.maxz),
+			DMM_IGNORE_PLAYERS
+		)
+		// Write map from coordinates and dimensions:
+		/*var mapText = suite.write_cube(
+			2, 2, 1,
+			world.maxx-2, world.maxy-2, 1,
+			DMM_IGNORE_PLAYERS
+		)*/
+		// Write map from area, can be irregularly shaped:
+		/*var mapText = suite.write_area(
+			locate(/demo/area),
+			DMM_IGNORE_PLAYERS
+		)*/
 		usr << browse("<pre>[mapText]</pre>")
 
 	verb/load(dmm_file as file)
@@ -51,14 +45,7 @@ mob
 		suite.read_map(map_text, 1, 1, 1)
 
 
-//------------------------------------------------------------------------------
-/*
-	The rest of this file defines a demo world of uninteresting nonsense.
-*/
-
-//------------------------------------------------
-
-client/Center() world.Reboot()
+//-- The rest of this file defines a demo world of uninteresting nonsense ------
 
 world
 	mob = /demo/mob
@@ -75,6 +62,7 @@ demo
 		New()
 			. = ..()
 			tag = "demo_area"
+
 	turf
 		parent_type = /turf
 		icon = 'demo.dmi'

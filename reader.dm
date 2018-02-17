@@ -3,14 +3,13 @@
 //-- Reader for loading DMM files at runtime -----------------------------------
 
 dmm_suite
-	var
-		quote = "\""
 
-	load_map(dmm_file as file, z_offset as num) // Deprecated! Use read_map() instead
-		if(!z_offset) z_offset = world.maxz+1
-		var dmmText = file2text(dmm_file)
-		return read_map(dmmText, 1, 1, z_offset)
-
+	/*-- read_map ------------------------------------
+	Generates map instances based on provided DMM formatted text. If coordinates
+	are provided, the map will start loading at those coordinates. Otherwise, any
+	coordinates saved with the map will be used. Otherwise, coordinates will
+	default to (1, 1, world.maxz+1)
+	*/
 	read_map(dmm_text as text, coordX as num, coordY as num, coordZ as num)
 		// Split Key/Model list into lines
 		var key_len = length(
@@ -29,8 +28,7 @@ dmm_suite
 			grid_models[modelKey] = modelContents
 			sleep(-1)
 		// Retrieve Comments, Determine map position (if not specified)
-		var commentModel = modelLines[2] // The "empty cell" key will always be first, then the comment key.
-		DIAG(commentModel)
+		var commentModel = modelLines[1] // The comment key will always be first.
 		var bracketPos = findtextEx(commentModel, "}")
 		commentModel = copytext(commentModel, findtextEx(commentModel, "=")+3, bracketPos) // Skip opening bracket
 		var commentPathText = "[/dmm_suite/comment]"
@@ -83,6 +81,20 @@ dmm_suite
 			sleep(-1)
 		//
 		return TRUE
+
+	/*-- load_map ------------------------------------
+	Deprecated. Use read_map instead.
+	*/
+	load_map(dmm_file as file, z_offset as num)
+		if(!z_offset) z_offset = world.maxz+1
+		var dmmText = file2text(dmm_file)
+		return read_map(dmmText, 1, 1, z_offset)
+
+
+//-- Supplemental Methods ------------------------------------------------------
+
+	var
+		quote = "\""
 
 	proc
 		parse_grid(models as text, xcrd, ycrd, zcrd)

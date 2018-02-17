@@ -4,17 +4,17 @@
 
 dmm_suite
 
-	/*-- writeDimensions -----------------------------
-	Generates DMM map text representing a rectangular region defined
-	by the provided arguments. Generated map text is ready to be saved
-	to file or read into another position on the map.
+	/*-- write_map -----------------------------------
+	Generates DMM map text from a region represented by turfs on two opposite
+	corners of a 3D block. Generated map text is ready to be saved to file or
+	read into another position on the map.
 	*/
-	write_map(turf/t1, turf/t2, flags as num)
+	write_map(turf/turf1, turf/turf2, flags as num)
 		//Check for valid turfs.
-		if(!isturf(t1) || !isturf(t2))
+		if(!isturf(turf1) || !isturf(turf2))
 			CRASH("Invalid arguments supplied to proc write_map, arguments were not turfs.")
-		var /turf/lowCorner  = locate(min(t1.x,t2.x), min(t1.y,t2.y), min(t1.z,t2.z))
-		var /turf/highCorner = locate(max(t1.x,t2.x), max(t1.y,t2.y), max(t1.z,t2.z))
+		var /turf/lowCorner  = locate(min(turf1.x,turf2.x), min(turf1.y,turf2.y), min(turf1.z,turf2.z))
+		var /turf/highCorner = locate(max(turf1.x,turf2.x), max(turf1.y,turf2.y), max(turf1.z,turf2.z))
 		var startZ = lowCorner.z
 		var startY = lowCorner.y
 		var startX = lowCorner.x
@@ -25,13 +25,12 @@ dmm_suite
 		var height = (endY - startY)+1
 		var width  = (endX - startX)+1
 		// Create dmm_suite comments to store in map file
-		var /dmm_suite/comment/mapComment = new()
+		var /dmm_suite/comment/mapComment = new(locate(startX, startY, startZ))
 		mapComment.coordinates = "[startX],[startY],[startZ]"
 		mapComment.dimensions = "[width],[height],[depth]"
-		var commentModel = "[mapComment.type][checkAttributes(mapComment)]"
 		// Identify all unique grid cells
 		// Store template number for each grid cells
-		var /list/templates = list(commentModel)
+		var /list/templates = list()
 		var /list/templateBuffer = new(width*height*depth)
 		for(var/posZ = 0 to depth-1)
 			for(var/posY = 0 to height-1)
@@ -47,27 +46,33 @@ dmm_suite
 		// Compile List of Keys mapped to Models
 		return writeDimensions(startX, startY, startZ, width, height, depth, templates, templateBuffer)
 
-	/*-- writeDimensions -----------------------------
-	Generates DMM map text representing a rectangular region defined
-	by the provided arguments. Generated map text is ready to be saved
-	to file or read into another position on the map.
+	/*-- write_cube ----------------------------------
+	Generates DMM map text from a region defined by the supplied coordinates
+	and dimensions. Generated map text is ready to be saved	to file or read
+	into another position on the map.
 	*/
 	write_cube(startX as num, startY as num, startZ as num, width as num, height as num, depth as num, flags as num)
+		// Ensure that cube is within boundries of current map
+		if(
+			min(startX, startY, startZ) < 1 || \
+			startX + width -1 > world.maxx  || \
+			startY + height-1 > world.maxy  || \
+			startZ + depth -1 > world.maxz  || \
+			startX > world.maxx             || \
+			startY > world.maxy             || \
+			startZ > world.maxz                \
+		) CRASH("Dimensions outside valid range")
 		// Create dmm_suite comments to store in map file
-		var /dmm_suite/comment/mapComment = new()
+		var /dmm_suite/comment/mapComment = new(locate(startX, startY, startZ))
 		mapComment.coordinates = "[startX],[startY],[startZ]"
 		mapComment.dimensions = "[width],[height],[depth]"
-		var commentModel = "[mapComment.type][checkAttributes(mapComment)]"
 		// Identify all unique grid cells
 		// Store template number for each grid cells
-		var /list/templates = list(commentModel)
+		var /list/templates = list()
 		var /list/templateBuffer = new(width*height*depth)
 		for(var/posZ = 0 to depth-1)
 			for(var/posY = 0 to height-1)
 				for(var/posX = 0 to width-1)
-					if(rand() < 1/1000)
-						world << "([posX],[posY],[posZ])"
-						sleep(1)
 					var /turf/saveTurf = locate(startX+posX, startY+posY, startZ+posZ)
 					var testTemplate = makeTemplate(saveTurf, flags)
 					var templateNumber = templates.Find(testTemplate)
@@ -79,7 +84,71 @@ dmm_suite
 		// Compile List of Keys mapped to Models
 		return writeDimensions(startX, startY, startZ, width, height, depth, templates, templateBuffer)
 
-//-- Text Generating Functions -------------------
+	/*-- write_area ----------------------------------
+	Generates DMM map text from an /area instance. Instance can be irregularly
+	shape and non-contiguous.  Generated map text is ready to be saved to file
+	or read into another position on the map.
+	*/
+	write_area(area/save_area, flags as num)
+		// Cancel out if the area isn't on the map
+		if(!(locate(/turf) in save_area.contents))
+			return FALSE
+		//
+		var startZ = save_area.z
+		var startY = save_area.y
+		var startX = save_area.x
+		var endZ = 0
+		var endY = 0
+		var endX = 0
+		for(var/turf/containedTurf in save_area.contents)
+			if(     containedTurf.z >   endZ)   endZ = containedTurf.z
+			else if(containedTurf.z < startZ) startZ = containedTurf.z
+			if(     containedTurf.y >   endY)   endY = containedTurf.y
+			else if(containedTurf.y < startY) startY = containedTurf.y
+			if(     containedTurf.x >   endX)   endX = containedTurf.x
+			else if(containedTurf.x < startX) startX = containedTurf.x
+		var depth  = (endZ - startZ)+1 // Include first tile, x = 1
+		var height = (endY - startY)+1
+		var width  = (endX - startX)+1
+		// Create empty cell model
+		var emptyCellModel = "[/dmm_suite/clear_turf],[/dmm_suite/clear_area]"
+		// Identify all unique grid cells
+		// Store template number for each grid cells
+		var /list/templates = list("-", emptyCellModel)
+		var emptyCellIndex = templates.Find(emptyCellModel) // Magic numbers already bit me here once. Don't be tempted!
+		var /list/templateBuffer = new(width*height*depth)
+		for(var/posZ = 0 to depth-1)
+			for(var/posY = 0 to height-1)
+				for(var/posX = 0 to width-1)
+					var /turf/saveTurf = locate(startX+posX, startY+posY, startZ+posZ)
+					// Skip out if turf isn't in save area
+					if(saveTurf.loc != save_area)
+						var compoundIndex = 1 + (posX) + (posY*width) + (posZ*width*height)
+						templateBuffer[compoundIndex] = emptyCellIndex
+						continue
+					//
+					var testTemplate = makeTemplate(saveTurf, flags)
+					var templateNumber = templates.Find(testTemplate)
+					if(!templateNumber)
+						templates.Add(testTemplate)
+						templateNumber = templates.len
+					var compoundIndex = 1 + (posX) + (posY*width) + (posZ*width*height)
+					templateBuffer[compoundIndex] = templateNumber
+		// Create dmm_suite comments to store in map file
+		var /dmm_suite/comment/mapComment = new(locate(startX, startY, startZ))
+		mapComment.coordinates = "[startX],[startY],[startZ]"
+		mapComment.dimensions = "[width],[height],[depth]"
+		var firstSaveIndex = templateBuffer[1]
+		var firstTemplate = templates[firstSaveIndex]
+		var commentTemplate  = "[mapComment.type][checkAttributes(mapComment)],[firstTemplate]"
+		templates[1] = commentTemplate
+		templateBuffer[1] = 1
+		// Compile List of Keys mapped to Models
+		return writeDimensions(startX, startY, startZ, width, height, depth, templates, templateBuffer)
+
+
+//-- Text Generating Functions -------------------------------------------------
+
 dmm_suite/proc
 
 	/*-- writeDimensions -----------------------------

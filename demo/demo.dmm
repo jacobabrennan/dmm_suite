@@ -1,37 +1,52 @@
-"a" = (/demo/obj,/demo/turf,/area)
-"b" = (/demo/turf,/demo/area)
-"c" = (/demo/obj/red_flowers,/demo/turf,/demo/area)
-"d" = (/dmm_suite/clear_turf,/dmm_suite/clear_area)
-"e" = (/demo/obj,/demo/turf,/demo/area)
-"f" = (/demo/obj/red_flowers{test_num = 207; test_txt = "iUasdf"},/demo/turf,/demo/area)
-"g" = (/demo/obj/red_flowers{contents = newlist(); test_num = 207; test_txt = "iUasdf"},/demo/turf,/demo/area)
-"h" = (/demo/turf,/demo/obj,/demo/turf/ledge,/demo/area)
-"i" = (/demo/turf,/demo/obj/red_flowers{test_num = 207; test_txt = "iU"},/demo/turf/ledge,/demo/area)
-"j" = (/demo/turf,/demo/obj/red_flowers{test_num = 207; test_txt = "iUasdf"},/demo/turf/ledge,/demo/area)
-"k" = (/demo/mob,/demo/turf,/demo/area)
-"l" = (/demo/turf,/demo/turf/ledge,/demo/turf/circle,/demo/area)
-"m" = (/demo/turf,/demo/turf/circle,/demo/turf/ledge,/demo/area)
+"a" = (/dmm_suite/underlay{name = "turf"; text = "t"; icon = 'demo.dmi'; icon_state = "grass"; layer = 2; invisibility = 1; plane = 0},/demo/obj{test_num = 178; test_txt = "wJ"},/demo/turf/ledge,/demo/area{tag = "demo_area"})
+"b" = (/dmm_suite/clear_turf,/dmm_suite/clear_area)
+"c" = (/demo/turf,/demo/area{tag = "demo_area"})
+"d" = (/dmm_suite/underlay{name = "turf"; text = "t"; icon = 'demo.dmi'; icon_state = "grass"; layer = 2; invisibility = 1; plane = 0},/dmm_suite/underlay{name = "ledge"; text = "l"; icon = 'demo.dmi'; icon_state = "ledge"; density = 1; layer = 2; invisibility = 1; plane = 0},/demo/turf/circle,/demo/area{tag = "demo_area"})
+"e" = (/dmm_suite/underlay{name = "turf"; text = "t"; icon = 'demo.dmi'; icon_state = "grass"; layer = 2; invisibility = 1; plane = 0},/dmm_suite/underlay{name = "circle"; text = "c"; icon = 'demo.dmi'; icon_state = "circle"; layer = 2; invisibility = 1; plane = 0},/demo/turf/ledge,/demo/area{tag = "demo_area"})
+"f" = (/demo/mob{dir = 1},/demo/turf,/demo/area{tag = "demo_area"})
+"g" = (/dmm_suite/underlay{name = "turf"; text = "t"; icon = 'demo.dmi'; icon_state = "grass"; layer = 2; invisibility = 1; plane = 0},/demo/obj{test_num = 81; test_txt = "vU"},/demo/turf/ledge,/demo/area{tag = "demo_area"})
+"h" = (/dmm_suite/underlay{name = "turf"; text = "t"; icon = 'demo.dmi'; icon_state = "grass"; layer = 2; invisibility = 1; plane = 0},/demo/obj/red_flowers{test_num = 210; test_txt = "qI"},/demo/turf/ledge,/demo/area{tag = "demo_area"})
+"i" = (/demo/mob{dir = 4},/demo/turf,/demo/area{tag = "demo_area"})
+"j" = (/demo/obj/red_flowers{test_num = 180; test_txt = "nK"},/demo/turf,/demo/area{tag = "demo_area"})
+"k" = (/demo/obj/red_flowers{test_num = 93; test_txt = "hD"},/demo/turf,/demo/area{tag = "demo_area"})
+"l" = (/dmm_suite/underlay{name = "turf"; text = "t"; icon = 'demo.dmi'; icon_state = "grass"; layer = 2; invisibility = 1; plane = 0},/demo/obj/red_flowers{test_num = 94; test_txt = "lT"},/demo/turf/ledge,/demo/area{tag = "demo_area"})
+"m" = (/dmm_suite/underlay{name = "turf"; text = "t"; icon = 'demo.dmi'; icon_state = "grass"; layer = 2; invisibility = 1; plane = 0},/demo/obj/red_flowers{test_num = 111; test_txt = "pH"},/demo/turf/ledge,/demo/area{tag = "demo_area"})
+"n" = (/dmm_suite/underlay{name = "turf"; text = "t"; icon = 'demo.dmi'; icon_state = "grass"; layer = 2; invisibility = 1; plane = 0},/demo/obj{test_num = 76; test_txt = "tK"},/demo/turf/ledge,/demo/area{tag = "demo_area"})
+"o" = (/dmm_suite/underlay{name = "turf"; text = "t"; icon = 'demo.dmi'; icon_state = "grass"; layer = 2; invisibility = 1; plane = 0},/demo/obj/red_flowers{test_num = 147; test_txt = "hT"},/demo/turf/ledge,/demo/area{tag = "demo_area"})
+"q" = (/demo/obj{test_num = 100; test_txt = "cJ"},/demo/turf,/demo/area{tag = "demo_area"})
+"r" = (/demo/obj{test_num = 252; test_txt = "fN"},/demo/turf,/demo/area{tag = "demo_area"})
+"s" = (/demo/obj{test_num = 201; test_txt = "uJ"},/demo/turf,/demo/area{tag = "demo_area"})
+"t" = (/demo/obj/red_flowers{test_num = 77; test_txt = "aD"},/demo/turf,/demo/area{tag = "demo_area"})
+"u" = (/demo/obj{test_num = 31; test_txt = "qZ"},/demo/turf,/demo/area{tag = "demo_area"})
+"v" = (/demo/obj/red_flowers{test_num = 102; test_txt = "kK"},/demo/turf,/demo/area{tag = "demo_area"})
+"w" = (/demo/obj{test_num = 210; test_txt = "xV"},/demo/turf,/demo/area{tag = "demo_area"})
+"x" = (/demo/obj{test_num = 75; test_txt = "nQ"},/demo/turf,/demo/area{tag = "demo_area"})
+"y" = (/demo/obj{test_num = 162; test_txt = "gI"},/demo/turf,/demo/area{tag = "demo_area"})
+"z" = (/demo/obj{test_num = 232; test_txt = "eC"},/demo/turf,/demo/area{tag = "demo_area"})
+"A" = (/demo/obj/red_flowers{test_num = 94; test_txt = "rI"},/demo/turf,/demo/area{tag = "demo_area"})
+"B" = (/demo/obj{test_num = 58; test_txt = "wA"},/demo/turf,/demo/area{tag = "demo_area"})
+"C" = (/demo/obj{test_num = 22; test_txt = "nV"},/demo/turf,/demo/area{tag = "demo_area"})
+"D" = (/demo/obj/red_flowers{test_num = 83; test_txt = "hU"},/demo/turf,/demo/area{tag = "demo_area"})
 
 (1,1,1) = {"
-ddddddddddddddddddddd
-dddddbbbbdddddddddddd
-ddbbbbbbbbbbddddddddd
-ddbbbbbbbbbbddddddddd
-dbbbbbdddcbbbbbbbdddd
-dbbbdddddeebbbbbbdddd
-dbbbdbdddeeecbbbbdddd
-dbbbbbdeeefefebbbdddd
-ddbbbbdfghhiiibbddddd
-ddbbbbbhjbbkbbbbddddd
-ddbbbbbbbbbbkbbbddddd
-ddddbbbbbbbbbbbdddddd
-dddddbbbbblbmbddddddd
-ddddddbbbbbbbbddddddd
-ddddddbbddddddddddddd
-dddddbbbdddddddddaadd
-ddddbbbdddddddddaaadd
-bbbbbbbdddddddddaaadd
-bbbbbbbdddddddddaaddd
-bbbbbbddddddddddddddd
-bbbbbdddddddddddddddd
+bbbbbbccccbbbbbbbbbb
+bbbccccccccccbbbbbbb
+bbbccccccccccbbbbbbb
+bbcccccbbbDcccccccbb
+bbcccbbbbbBCccccccbb
+bbcccbcbbbxyzAccccbb
+bbcccccbqrstuvwcccbb
+bbbccccbjkaghlmccbbb
+bbbcccccnocciccccbbb
+bbbccccccccccfcccbbb
+bbbbbcccccccccccbbbb
+bbbbbbcccccdcecbbbbb
+bbbbbbbccccccccbbbbb
+bbbbbbbccbbbbbbbbbbb
+bbbbbbcccbbbbbbbbbbb
+bbbbbcccbbbbbbbbbbbb
+bbbbccccbbbbbbbbbbbb
+bbbcccccbbbbbbbbbbbb
+bbbccccbbbbbbbbbbbbb
+bbbcccbbbbbbbbbbbbbb
 "}

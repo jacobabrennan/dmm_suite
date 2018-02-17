@@ -11,9 +11,16 @@ Writer:
 	Movable Atoms can have paths in their contents!
 	Instances of /Area from the map editor
 	cacheFiles
+
+Both:
+	Use the coordinates provided by the DMM format (1,1,1) = {""} to determine map loading locationg.
+	Why didn't I do this in the first place? Like, really, why? I knew this existed... so I must have
+	had a reason to go with map comments, right?
 */
 
-#define DIAG(X) world << {"<span style="color:red">[__FILE__]:[__LINE__]:: [X]</span>"};
+//#define DIAG(X) world << {"<span style="color:red">[__FILE__]:[__LINE__]:: [X]</span>"};
+
+//client/Center() world.Reboot()
 
 //-- Preprocessor --------------------------------------------------------------
 
