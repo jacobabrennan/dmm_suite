@@ -14,8 +14,12 @@ Writer:
 
 Both:
 	Use the coordinates provided by the DMM format (1,1,1) = {""} to determine map loading locationg.
-	Why didn't I do this in the first place? Like, really, why? I knew this existed... so I must have
-	had a reason to go with map comments, right?
+		Why didn't I do this in the first place? Like, really, why? I knew this existed... so I must
+		have had a reason to go with map comments, right?
+	map objects that users can modify and then pass into the reader or writer, so say "only read/
+		write this region". Will allow for things like only loading one z-level from a file.
+
+
 */
 
 //#define DIAG(X) world << {"<span style="color:red">[__FILE__]:[__LINE__]:: [X]</span>"};

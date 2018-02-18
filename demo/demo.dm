@@ -3,6 +3,22 @@
 //-- Demo ----------------------------------------------------------------------
 
 mob
+	verb/save_world(file_name as text)
+		// Create a new DMM Suite
+		var /dmm_suite/suite = new()
+		// Write map from coordinates and dimensions:
+		var map_text = suite.write_cube(
+			1, 1, 1,
+			world.maxx-1, world.maxy-1, world.maxz,
+			DMM_IGNORE_PLAYERS
+		)
+		// Save text to file
+		file_name = "[file_name].dmm"
+		text2file(map_text, file_name)
+		// Display done message
+		src << "Finished saving [file_name]"
+
+mob
 
 	verb/write()
 		/*
@@ -11,23 +27,23 @@ mob
 		*/
 		var /dmm_suite/suite = new()
 		// Write map text from two corners:
-		var mapText = suite.write_map(
+		var map_text = suite.write_map(
 			locate(1, 1, 1),
 			locate(world.maxx, world.maxy, world.maxz),
 			DMM_IGNORE_PLAYERS
 		)
 		// Write map from coordinates and dimensions:
-		/*var mapText = suite.write_cube(
+		/*var map_text = suite.write_cube(
 			2, 2, 1,
 			world.maxx-2, world.maxy-2, 1,
 			DMM_IGNORE_PLAYERS
 		)*/
 		// Write map from area, can be irregularly shaped:
-		/*var mapText = suite.write_area(
+		/*var map_text = suite.write_area(
 			locate(/demo/area),
 			DMM_IGNORE_PLAYERS
 		)*/
-		usr << browse("<pre>[mapText]</pre>")
+		usr << browse("<pre>[map_text]</pre>")
 
 	verb/load(dmm_file as file)
 		/*
